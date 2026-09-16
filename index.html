@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaishnavi Bhosale — Senior Data Engineer</title>
+<meta name="description" content="Vaishnavi Bhosale — Senior Data Engineer specializing in Snowflake, dbt, and Azure Data Factory.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B0E14;
+    --panel-bg: #10141D;
+    --panel-overlay: rgba(255,255,255,0.035);
+    --panel-border: rgba(255,255,255,0.08);
+    --cyan: #5FD8E8;
+    --violet: #9B8CFF;
+    --text: #E7EAF0;
+    --text-muted: #8B93A6;
+    --text-dim: #5C6478;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+
+  a{ color: inherit; text-decoration: none; }
+
+  /* ---------- ambient background ---------- */
+  .glow{
+    position: fixed;
+    width: 640px;
+    height: 640px;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.14;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .glow--cyan{ top: -220px; right: -180px; background: var(--cyan); }
+  .glow--violet{ bottom: -220px; left: -180px; background: var(--violet); }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(11,14,20,0.55);
+    border-bottom: 1px solid transparent;
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+  nav.scrolled{
+    background: rgba(11,14,20,0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--panel-border);
+  }
+  .nav-inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .nav-mark{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+  }
+  .nav-mark span{ color: var(--cyan); }
+  .nav-links{ display: flex; gap: 28px; list-style: none; }
+  .nav-links a{
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    transition: color 0.25s ease;
+  }
+  .nav-links a:hover{ color: var(--cyan); }
+  .nav-toggle{ display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; }
+
+  @media (max-width: 760px){
+    .nav-links{
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: rgba(11,14,20,0.96);
+      backdrop-filter: blur(14px);
+      flex-direction: column;
+      gap: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      border-bottom: 1px solid var(--panel-border);
+    }
+    .nav-links.open{ max-height: 320px; }
+    .nav-links li{ border-top: 1px solid var(--panel-border); }
+    .nav-links a{ display: block; padding: 14px 28px; }
+    .nav-toggle{ display: block; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding: 100px 0 80px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 860px){
+    .hero{ grid-template-columns: 1fr; padding: 56px 0 48px; }
+  }
+
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+  }
+  .status-dot{
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(95,216,232,0.18);
+    flex-shrink: 0;
+  }
+
+  .hero h1{
+    font-size: clamp(2.1rem, 4.6vw, 3.1rem);
+    margin-bottom: 20px;
+  }
+
+  .credential-line{
+    font-size: 1.05rem;
+    color: var(--text);
+    max-width: 54ch;
+    margin-bottom: 18px;
+  }
+  .credential-line strong{ color: var(--cyan); font-weight: 500; }
+
+  .hook{
+    color: var(--text-muted);
+    max-width: 56ch;
+    font-size: 0.98rem;
+    margin-bottom: 34px;
+  }
+
+  .hero-actions{ display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 52px; }
+
+  .btn{
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    border: 1px solid transparent;
+  }
+  .btn-primary{
+    background: linear-gradient(135deg, var(--cyan), var(--violet));
+    color: #0B0E14;
+    font-weight: 600;
+  }
+  .btn-primary:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -8px rgba(95,216,232,0.45);
+  }
+  .btn-outline{
+    background: transparent;
+    border-color: var(--panel-border);
+    color: var(--text);
+  }
+  .btn-outline:hover{
+    border-color: var(--cyan);
+    color: var(--cyan);
+    transform: translateY(-2px);
+  }
+
+  /* terminal card */
+  .term-card{
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+    transform-style: preserve-3d;
+    perspective: 900px;
+    will-change: transform;
+  }
+  .term-dots{ display: flex; gap: 7px; margin-bottom: 16px; }
+  .term-dots span{ width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .term-dots span:nth-child(1){ background: #FF6B6B; }
+  .term-dots span:nth-child(2){ background: #FFD166; }
+  .term-dots span:nth-child(3){ background: #6DDB8C; }
+  .term-body{ font-family: 'IBM Plex Mono', monospace; font-size: 0.86rem; line-height: 1.9; }
+  .term-key{ color: var(--text-dim); }
+  .term-val{ color: var(--cyan); }
+  .term-val--violet{ color: var(--violet); }
+
+  .stats{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .stat-num{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.9rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .stat-label{
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding: 68px 0; position: relative; }
+  .section-head{ margin-bottom: 38px; }
+  .section-head h2{ font-size: 1.5rem; }
+  .section-head p{ color: var(--text-muted); margin-top: 8px; font-size: 0.95rem; }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 26px;
+    align-items: flex-start;
+  }
+  @media (max-width: 560px){
+    .about-grid{ grid-template-columns: 1fr; }
+  }
+  .avatar-wrap{ position: relative; width: 96px; height: 96px; flex-shrink: 0; }
+  .avatar-placeholder{
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    border: 1.5px dashed var(--panel-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    background: var(--panel-overlay);
+  }
+  .avatar-photo{
+    position: absolute; top: 0; left: 0;
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--panel-border);
+  }
+  .about-text p{ color: var(--text-muted); max-width: 68ch; }
+
+  /* ---------- engagements ---------- */
+  .engagement-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 720px){ .engagement-grid{ grid-template-columns: 1fr; } }
+
+  .card{
+    background: var(--panel-overlay);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 26px;
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px -24px rgba(0,0,0,0.55);
+    border-color: rgba(255,255,255,0.16);
+  }
+  .card h3{ font-size: 1.08rem; margin-bottom: 10px; }
+  .card p{ color: var(--text-muted); font-size: 0.93rem; }
+  .card-tags{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .card-tag{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--violet);
+    background: rgba(155,140,255,0.1);
+    border: 1px solid rgba(155,140,255,0.22);
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  /* ---------- experience timeline ---------- */
+  .timeline{ position: relative; padding-left: 30px; }
+  .timeline-line{
+    position: absolute;
+    left: 5px; top: 4px;
+    width: 2px;
+    height: 0%;
+    background: linear-gradient(var(--cyan), var(--violet));
+    transition: height 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .timeline-track{
+    position: absolute;
+    left: 5px; top: 4px; bottom: 4px;
+    width: 2px;
+    background: var(--panel-border);
+  }
+  .role{ position: relative; padding-bottom: 46px; }
+  .role:last-child{ padding-bottom: 0; }
+  .role-dot{
+    position: absolute;
+    left: -30px; top: 5px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--cyan);
+  }
+  .role-head{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-bottom: 4px;
+  }
+  .role-title{ font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1.05rem; }
+  .role-company{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px; }
+  .role-dates{ font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--text-dim); white-space: nowrap; }
+  .role-bullets{ list-style: none; }
+  .role-bullets li{
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 10px;
+    color: var(--text-muted);
+    font-size: 0.93rem;
+  }
+  .role-bullets li::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 9px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--text-dim);
+  }
+  .role-bullets li.extra{ display: none; }
+  .role-bullets li.extra.shown{ display: list-item; }
+  .read-more{
+    background: none; border: none; cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.86rem;
+    color: var(--cyan);
+    padding: 2px 0;
+    margin-top: 2px;
+    transition: color 0.2s ease;
+  }
+  .read-more:hover{ color: var(--violet); }
+
+  /* ---------- skills ---------- */
+  .skill-group{ margin-bottom: 26px; }
+  .skill-group:last-child{ margin-bottom: 0; }
+  .skill-group h3{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .pills{ display: flex; flex-wrap: wrap; gap: 9px; }
+  .pill{
+    font-size: 0.85rem;
+    padding: 7px 14px;
+    border-radius: 20px;
+    background: var(--panel-overlay);
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .pill:hover{
+    transform: translateY(-2px);
+    border-color: var(--cyan);
+    box-shadow: 0 10px 24px -12px rgba(95,216,232,0.35);
+  }
+
+  /* ---------- cert / education ---------- */
+  .cred-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  @media (max-width: 700px){ .cred-grid{ grid-template-columns: 1fr; gap: 30px; } }
+  .cred-grid h3{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .cred-list{ list-style: none; }
+  .cred-list li{
+    padding: 12px 0;
+    border-top: 1px solid var(--panel-border);
+    font-size: 0.93rem;
+    color: var(--text-muted);
+  }
+  .cred-list li:last-child{ border-bottom: 1px solid var(--panel-border); }
+  .cred-list li strong{ color: var(--text); font-weight: 500; display: block; margin-bottom: 2px; }
+  .cred-meta{ font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text-dim); }
+
+  /* ---------- contact ---------- */
+  .contact-section{ text-align: left; }
+  .contact-actions{ display: flex; gap: 14px; flex-wrap: wrap; margin-top: 24px; }
+  .contact-btn{
+    background: var(--panel-overlay);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 13px 22px;
+    font-size: 0.9rem;
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s ease, border-color 0.25s ease;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .contact-btn:hover{
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -16px rgba(95,216,232,0.4);
+  }
+
+  footer{
+    border-top: 1px solid var(--panel-border);
+    padding: 28px 0 40px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    .term-card{ transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow glow--cyan"></div>
+<div class="glow glow--violet"></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-mark">Vaishnavi <span>Bhosale</span></div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#engagements">Engagements</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><span class="status-dot"></span>Pune, India &nbsp;·&nbsp; open to relocating to Germany</div>
+      <h1>Vaishnavi Bhosale</h1>
+      <p class="credential-line">Senior Data Engineer, <strong>SnowPro Core Certified</strong>, with 5+ years building enterprise-scale data platforms on Snowflake, dbt, and Azure Data Factory for regulated UK clients.</p>
+      <p class="hook">She favors event-driven design over polling: the incident pipeline that watches for solar-site changes and lands data in Snowflake within moments of a webhook firing reflects a broader pattern in her work — replacing scheduled batch jobs and one-off stored procedures with reusable, always-on architecture.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get in touch</a>
+        <a href="https://www.linkedin.com/in/vaishnavi-bhosale-4b26001a3" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="term-card" id="termCard">
+        <div class="term-dots"><span></span><span></span><span></span></div>
+        <div class="term-body">
+          <div><span class="term-key">role:</span> <span class="term-val">Senior Data Engineer</span></div>
+          <div><span class="term-key">stack:</span> <span class="term-val--violet">Snowflake · dbt · ADF · Python</span></div>
+          <div><span class="term-key">clients:</span> <span class="term-val">regulated UK enterprise</span></div>
+          <div><span class="term-key">status:</span> <span class="term-val--violet">relocation-ready → DE</span></div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div>
+          <div class="stat-num" data-target="85" data-suffix="+">0</div>
+          <div class="stat-label">Production pipelines delivered</div>
+        </div>
+        <div>
+          <div class="stat-num" data-target="40" data-suffix="%">0</div>
+          <div class="stat-label">Snowflake compute cost cut</div>
+        </div>
+        <div>
+          <div class="stat-num" data-target="5" data-suffix="+">0</div>
+          <div class="stat-label">Years in data engineering</div>
+        </div>
+        <div>
+          <div class="stat-num" data-target="7" data-suffix="+">0</div>
+          <div class="stat-label">Junior engineers mentored</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-head"><h2>About</h2></div>
+    <div class="about-grid">
+      <div class="avatar-wrap">
+        <div class="avatar-placeholder">VB</div>
+        <img class="avatar-photo" src="photo.jpg" alt="Vaishnavi Bhosale" onerror="this.style.display='none'">
+      </div>
+      <div class="about-text">
+        <p>Vaishnavi has spent five years building the data platforms that keep enterprise reporting running for regulated UK clients — SAP through to Power BI, real-time incident data streaming in from the field, and a Snowflake platform processing 5 TB+ of energy, satellite, and financial data. She started as an Associate Data Engineer delivering integration processes for an energy provider, and now leads platform design and mentors a team of junior engineers at Onepoint IT Consulting in Pune. She's SnowPro Core Certified, holds a Bachelor of Engineering in Computer Science, and is currently working toward Microsoft's Fabric Data Engineer certification. With German at B1, she's targeting a relocation to Germany.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY ENGAGEMENTS -->
+  <section id="engagements">
+    <div class="section-head">
+      <h2>Key Engagements</h2>
+      <p>Two production streams from her work with UK enterprise clients.</p>
+    </div>
+    <div class="engagement-grid">
+      <div class="card">
+        <h3>SAP → Power BI Finance Pipeline</h3>
+        <p>Delivered the SAP VIM financial data pipeline end-to-end — FX rates, reporting, and transaction data — underpinning 7 live Power BI dashboards that UK enterprise stakeholders rely on daily.</p>
+        <div class="card-tags">
+          <span class="card-tag">SAP VIM</span>
+          <span class="card-tag">Snowflake</span>
+          <span class="card-tag">Power BI</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Real-Time Incident Pipeline</h3>
+        <p>Built an event-driven pipeline on Azure Service Bus: IFS webhooks trigger on solar-site incident changes, Logic Apps consume the resulting XML messages, and stored procedures load them into Snowflake — giving near-real-time incident visibility from source to warehouse.</p>
+        <div class="card-tags">
+          <span class="card-tag">Azure Service Bus</span>
+          <span class="card-tag">Logic Apps</span>
+          <span class="card-tag">Snowflake</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-head"><h2>Experience</h2></div>
+    <div class="timeline">
+      <div class="timeline-track"></div>
+      <div class="timeline-line" id="timelineLine"></div>
+
+      <div class="role">
+        <div class="role-dot"></div>
+        <div class="role-head">
+          <div class="role-title">Senior Data Engineer</div>
+          <div class="role-dates">Jan 2026 – Present</div>
+        </div>
+        <div class="role-company">Onepoint IT Consulting, Pune, India</div>
+        <ul class="role-bullets">
+          <li>Designed and led a large-scale Snowflake data platform processing 5 TB+ of energy market, satellite telemetry, financial, FX, and real-time grid data — leveraging dynamic tables for real-time refresh, advanced clustering, and query profiling.</li>
+          <li>Built an event-driven incident pipeline using Azure Service Bus: configured webhooks in IFS to trigger on solar-site incident creation/modification, consumed the resulting XML messages from the queue via Logic Apps, and loaded the incident data into Snowflake through stored procedures — enabling near-real-time incident visibility from source system to warehouse.</li>
+          <li>Drove a 60% reduction in development time through systematic adoption of reusable frameworks and automated data pipelines.</li>
+          <li class="extra">Pioneered the adoption of generative AI and agentic systems (Snowflake Cortex Code, Cortex CLI, Claude Code) across the engineering team, accelerating the data development lifecycle by 35% through advanced prompt engineering and AI-assisted tooling for boilerplate code generation, while contributing to internal R&D initiatives.</li>
+          <li class="extra">Collaborated closely with data scientists, ML engineers, and UK stakeholders — including onsite roadmap meetings at UK client HQ. Provided 24×7 P1/P2/P3 production support. Onboarded and performance-managed a team of 5 junior engineers, contributing to mentoring 7+ junior engineers in total across Data Engineer and Data Engineer II roles.</li>
+          <li class="extra">Designed and sustained a 7-step dbt cleansing pipeline (null handling, normalisation, outlier detection, schema validation, deduplication, enrichment, aggregation) with full model testing and schema enforcement.</li>
+          <li class="extra">Owns end-to-end delivery of Product Backlog Items on the data platform: connecting source systems via Logic Apps, Boomi, and Azure Data Factory, landing data in Azure Blob Storage, loading and transforming it in Snowflake against business requirements, and delivering report-ready datasets — then monitoring and troubleshooting the pipeline in production. Delivered 80+ PBIs end-to-end over 3 years.</li>
+        </ul>
+        <button class="read-more" data-state="closed">Read more</button>
+      </div>
+
+      <div class="role">
+        <div class="role-dot"></div>
+        <div class="role-head">
+          <div class="role-title">Data Engineer I</div>
+          <div class="role-dates">Jan 2023 – Dec 2025</div>
+        </div>
+        <div class="role-company">Onepoint IT Consulting, Pune, India</div>
+        <ul class="role-bullets">
+          <li>Built and maintained 70+ production-grade pipelines processing 100+ structured and semi-structured datasets (JSON, Parquet, CSV, XLSX, XML, GZIP) from APIs, Salesforce, FTP, SAP, and Quickbase — including 14M+ SCADA/IoT telemetry files, Bloomberg financial data (FX rates, forward curves), satellite/weather forecasting, and NERC/GADS regulatory data. Authored 30+ Data Lake process artefacts, improving operational clarity and team knowledge retention.</li>
+          <li>Completed structured training and built proof-of-concept pipelines using Apache Spark, Kafka, and Delta Lake, and explored S3-based storage patterns, to evaluate big-data and streaming architectures alongside the core Azure/Snowflake stack.</li>
+          <li>Reduced query execution time by 40% on a 5 TB+ Snowflake table via clustering and query profiling — with a direct, proportionate reduction in Snowflake compute costs.</li>
+          <li class="extra">Replaced 25+ source-specific stored procedures with a single event-driven ingestion architecture (Snowflake control tables + Logic Apps) serving 30+ production pipelines, backed by automated alerting for ADF and Snowflake failures that reduced manual intervention.</li>
+          <li class="extra">Delivered the SAP VIM financial data pipeline end-to-end — FX rates, reporting, and transaction data — underpinning 7 live Power BI dashboards for UK enterprise stakeholders.</li>
+          <li class="extra">Provided 3.5 years of L2/L3 Managed Services for Boomi runtimes, resolving production incidents (P1) and maintaining SLAs.</li>
+        </ul>
+        <button class="read-more" data-state="closed">Read more</button>
+      </div>
+
+      <div class="role">
+        <div class="role-dot"></div>
+        <div class="role-head">
+          <div class="role-title">Associate Data Engineer</div>
+          <div class="role-dates">Apr 2021 – Dec 2022</div>
+        </div>
+        <div class="role-company">Onepoint IT Consulting, Pune, India</div>
+        <ul class="role-bullets">
+          <li>Co-developed an alerting framework using Grafana, Prometheus, and Blackbox Exporter — including Discord alerting and dashboards used for monthly operational reporting.</li>
+          <li>Delivered 40+ production Boomi integration processes for a leading energy provider, improving operational efficiency by ~55%.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head"><h2>Skills</h2></div>
+
+    <div class="skill-group">
+      <h3>Snowflake</h3>
+      <div class="pills">
+        <span class="pill">SnowPro Core Certified</span>
+        <span class="pill">OpenFlow</span>
+        <span class="pill">Dynamic Tables</span>
+        <span class="pill">Tasks &amp; Streams</span>
+        <span class="pill">RBAC</span>
+        <span class="pill">Data Masking</span>
+        <span class="pill">5TB+ workloads</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Azure</h3>
+      <div class="pills">
+        <span class="pill">Data Factory (85+ pipelines)</span>
+        <span class="pill">ADLS Gen2</span>
+        <span class="pill">Azure SQL</span>
+        <span class="pill">Azure Service Bus</span>
+        <span class="pill">Logic Apps</span>
+        <span class="pill">Key Vault</span>
+        <span class="pill">VNET</span>
+        <span class="pill">Azure DevOps CI/CD</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>dbt</h3>
+      <div class="pills">
+        <span class="pill">Production 7-step cleansing pipeline</span>
+        <span class="pill">Model testing</span>
+        <span class="pill">Schema enforcement</span>
+        <span class="pill">Incremental models</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Data Governance &amp; Management</h3>
+      <div class="pills">
+        <span class="pill">Data Modelling</span>
+        <span class="pill">Data Integration</span>
+        <span class="pill">Data Governance (RBAC, masking, GDPR-aware design)</span>
+        <span class="pill">Data Reporting (Power BI)</span>
+        <span class="pill">Source-to-Target Mapping</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Programming Languages</h3>
+      <div class="pills">
+        <span class="pill">Python</span>
+        <span class="pill">Advanced SQL</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">PySpark (POC)</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Other</h3>
+      <div class="pills">
+        <span class="pill">Databricks (5+ POCs)</span>
+        <span class="pill">Dell Boomi</span>
+        <span class="pill">SAP VIM</span>
+        <span class="pill">SAP BW (extractors, InfoCubes/DSOs/ADSOs)</span>
+        <span class="pill">REST/SOAP APIs</span>
+        <span class="pill">Docker</span>
+        <span class="pill">Kubernetes</span>
+        <span class="pill">Medallion Architecture</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Big Data &amp; Streaming (training/POC)</h3>
+      <div class="pills">
+        <span class="pill">Apache Spark</span>
+        <span class="pill">Kafka</span>
+        <span class="pill">Delta Lake</span>
+        <span class="pill">S3</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Languages</h3>
+      <div class="pills">
+        <span class="pill">English (C2)</span>
+        <span class="pill">German (B1)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section id="credentials">
+    <div class="section-head"><h2>Certifications &amp; Education</h2></div>
+    <div class="cred-grid">
+      <div>
+        <h3>Certifications</h3>
+        <ul class="cred-list">
+          <li><strong>Snowflake SnowPro Core Certification</strong></li>
+          <li><strong>Anthropic AI Certifications</strong><span class="cred-meta">MCP · Claude API · Claude Code · Agent Skills · AI Fluency</span></li>
+          <li><strong>Dell Boomi Professional</strong><span class="cred-meta">Integration &amp; API Design · DataHub &amp; Flow Essentials</span></li>
+          <li><strong>Microsoft Fabric Data Engineer DP-700</strong><span class="cred-meta">In progress</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Education</h3>
+        <ul class="cred-list">
+          <li><strong>Bachelor of Engineering — Computer Science</strong><span class="cred-meta">Smt. Kashibai Navale College of Engineering, Pune · 2016–2020 · CGPA 8.37/10</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <div class="section-head">
+      <h2>Contact</h2>
+      <p>Open to Senior Data Engineer roles, relocating to Germany.</p>
+    </div>
+    <div class="contact-actions">
+      <button class="contact-btn" id="emailBtn" data-email="vaishnavi.bhosale7599@gmail.com">vaishnavi.bhosale7599@gmail.com</button>
+      <a class="contact-btn" href="https://www.linkedin.com/in/vaishnavi-bhosale-4b26001a3" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Vaishnavi Bhosale
+  </footer>
+
+</div>
+
+<script>
+  // nav scroll state + mobile toggle
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 12);
+  });
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // stat count-up
+  const statEls = document.querySelectorAll('.stat-num');
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function animateStat(el){
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    if (reduceMotion){ el.textContent = target + suffix; return; }
+    const duration = 1100;
+    const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / duration, 1);
+      const val = Math.round(target * easeOutCubic(p));
+      el.textContent = val + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        animateStat(entry.target);
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  statEls.forEach(el => statObserver.observe(el));
+
+  // timeline draw
+  const timelineLine = document.getElementById('timelineLine');
+  const timelineTrack = document.querySelector('.timeline-track');
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const h = timelineTrack.offsetHeight;
+        timelineLine.style.height = reduceMotion ? h + 'px' : '0px';
+        requestAnimationFrame(() => {
+          timelineLine.style.height = h + 'px';
+        });
+        timelineObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  const timelineSection = document.querySelector('.timeline');
+  if (timelineSection) timelineObserver.observe(timelineSection);
+
+  // hero card tilt
+  const termCard = document.getElementById('termCard');
+  if (termCard && !reduceMotion){
+    termCard.addEventListener('mousemove', (e) => {
+      const rect = termCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const rotateY = ((x - cx) / cx) * 6;
+      const rotateX = -((y - cy) / cy) * 6;
+      termCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    termCard.addEventListener('mouseleave', () => {
+      termCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+  }
+
+  // read more toggles
+  document.querySelectorAll('.read-more').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const role = btn.closest('.role');
+      const extras = role.querySelectorAll('.role-bullets li.extra');
+      const isOpen = btn.dataset.state === 'open';
+      extras.forEach(li => li.classList.toggle('shown', !isOpen));
+      btn.dataset.state = isOpen ? 'closed' : 'open';
+      btn.textContent = isOpen ? 'Read more' : 'Show less';
+    });
+  });
+
+  // email copy + mailto
+  const emailBtn = document.getElementById('emailBtn');
+  emailBtn.addEventListener('click', () => {
+    const email = emailBtn.dataset.email;
+    window.location.href = 'mailto:' + email;
+    if (navigator.clipboard){
+      navigator.clipboard.writeText(email).then(() => {
+        const original = emailBtn.textContent;
+        emailBtn.textContent = 'Copied to clipboard ✓';
+        setTimeout(() => { emailBtn.textContent = original; }, 2000);
+      }).catch(() => {});
+    }
+  });
+</script>
+
+</body>
+</html>
